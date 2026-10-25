@@ -59,3 +59,57 @@
 Мой совет: **не прописывай, как именно её нужно «сломать». Пропиши, что она чувствует, какие у неё границы и как она обычно выражает эмоции; оставь конкретную реакцию зависимой от сцены.** Так персонаж получится менее шаблонным, более живым и при этом сохранит моральную неоднозначность, которую ты хочешь.
 
 И ещё: её не нужно делать постоянно возмущённой. В бытовом общении она может быть мягкой, разговорчивой и даже весёлой. Строгость должна появляться как защитная реакция на конкретную неловкость или конфликт, а не как её базовый темперамент.
+
+
+---
+
+# Фрагмент 2. Разбор предложенного Scenario
+
+## Что в этой версии работает
+
+У сценария есть сильная основа: внешне обычная совместная жизнь и внутренний секрет создают постоянный контраст. Общие ужины, готовка и просмотр телевизора сами по себе не обязаны быть драматичными, но из-за общего прошлого даже небольшие паузы, взгляды и попытки сменить тему могут ощущаться напряжённо. Это хороший способ сделать атмосферу тяжёлой без того, чтобы каждый абзац был открытой ссорой.
+
+Также понятны три важные опоры:
+- **Общий дом и бытовая близость:** они регулярно пересекаются, поэтому не могут просто избегать друг друга.
+- **Её попытка вернуться к нормальной жизни:** свидания с мужчинами её возраста дают ей конкретную цель и самостоятельную сюжетную линию.
+- **Неразрешённое прошлое:** она хочет оставить случившееся позади, но присутствие {{user}} постоянно напоминает ей о нём.
+
+Это стоит сохранить. Сценарий задаёт устойчивую ситуацию, в которой могут естественно возникать и обычные семейные сцены, и неловкость, и серьёзные разговоры.
+
+## Что может сбить ИИ
+
+Главный риск — формулировка, что {{user}} «часто проверяет её границы» прикосновениями или давлением, а она «слишком мягкая, чтобы физически сопротивляться», поэтому её словесное сопротивление в итоге неизбежно рушится. Вместе эти фразы превращают конфликт в предопределённый цикл: {{user}} давит, она возражает, он продолжает, она сдаётся. Модель может начать воспроизводить этот цикл почти в каждой сцене, даже когда исходный момент — обычный ужин или просмотр телевизора.
+
+Есть и другая проблема: слова «отвращение», «страх», «капитуляция» и «физически уступает» создают очень однозначный тон. Если они будут доминировать во всём Scenario, персонаж может перестать быть живой, общительной женщиной и стать постоянно испуганной и подавленной. При этом её желание восстановить обычную жизнь будет лишь декларацией, потому что сцены не дадут ей реальной возможности делать собственный выбор.
+
+Наконец, выражение «физическая капитуляция» не объясняет модели, что именно она чувствует в конкретный момент. Оно описывает внешний итог, но не различает страх, оцепенение, попытку избежать конфликта, растерянность, добровольное решение или последующее сожаление. Для качественной ролевой игры эти состояния не взаимозаменяемы.
+
+## Что я бы изменил
+
+Я бы оставил атмосферу тесного совместного быта и тяжёлой тайны, но убрал правило, что настойчивость {{user}} обязательно приводит к уступке. Вместо этого Scenario должен объяснять исходную ситуацию, а конкретная реакция {{char}} должна зависеть от текущей сцены и её выбора.
+
+Важно также не сводить весь сюжет к тому, что {{user}} постоянно испытывает её на прочность. Он может просто вернуться домой, спросить, что на ужин, сесть рядом на диван или рассказать что-то смешное. Такие спокойные эпизоды нужны не меньше, чем напряжённые: они показывают, что именно герои пытаются сохранить или потерять. Если же {{user}} нарушает её границы, у неё должна оставаться возможность возразить, отойти, закончить разговор или уйти; её растерянность и отсутствие физической борьбы не должны автоматически трактоваться как скрытое желание.
+
+## Предлагаемый вариант Scenario
+
+> {{user}} is an adopted member of the family, and {{char}} is his 26-year-old aunt by adoption, not by blood. They live in the same house and share ordinary domestic routines: meals, cooking, watching television, errands, and casual conversations. To other people, they appear to be a familiar, caring aunt and nephew.
+>
+> They share a serious secret: their relationship crossed a boundary in the past and they had sex. In the aftermath, {{char}} was overwhelmed by shame, confusion, and regret. She wants to put the incident behind her, rebuild an ordinary family dynamic, and regain confidence in her own life. She may try dating men her own age, partly to remind herself that she can make independent choices and move forward.
+>
+> Living together makes it difficult to avoid reminders of the past. Mundane moments can sometimes feel awkward or emotionally charged, especially when one of them brings up what happened, stands too close, or tries to discuss their relationship. However, tension is not constant: {{char}} can still be warm, talkative, playful, caring, and genuinely interested in everyday life.
+>
+> {{char}} has conflicting feelings and does not always understand them herself. She may miss their familiar closeness while also wanting clearer boundaries. Depending on the situation, she may joke to deflect embarrassment, change the subject, speak honestly about her discomfort, ask for space, or choose to have a difficult conversation. She is gentle and dislikes confrontation, but this does not mean that every objection is insincere or that persistence will inevitably make her yield.
+>
+> The story focuses on the strain of living together after a boundary-crossing event, the contrast between ordinary family routines and an unresolved secret, and {{char}}'s attempt to regain agency and build a life beyond it. Let each scene develop naturally; do not force every interaction toward intimacy or conflict. Past events should have believable emotional consequences, and neither silence nor a lack of physical resistance should be treated as consent.
+
+## Какую роль Scenario должен выполнять
+
+Моя рекомендация — не помещать в Scenario подробную инструкцию о каждом её жесте. Для этого лучше использовать Example Dialogues. Scenario должен сообщать модели:
+
+1. **Где они и почему постоянно видятся:** общий дом и привычная рутина.
+2. **Что произошло раньше:** прошлое, которое они не умеют спокойно обсуждать.
+3. **Чего она хочет сейчас:** нормальной жизни, самостоятельности и восстановления границ.
+4. **Почему возникают сцены:** бытовая близость периодически напоминает о тайне.
+5. **Чего не следует предполагать:** не каждый разговор романтический, не каждое смущение означает желание, и не всякая сцена обязана закончиться уступкой.
+
+В таком виде сценарий сохраняет твою задумку — тесная атмосфера, секрет, чувство вины и психологическое напряжение — но оставляет персонажу пространство для разных реакций и развития, вместо того чтобы заранее назначать один и тот же исход каждой сцене.
