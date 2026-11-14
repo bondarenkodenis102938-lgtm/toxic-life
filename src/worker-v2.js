@@ -236,13 +236,16 @@ async function login(request, env) {
   const input = await readJson(request);
   if (!input) return json({ error: "Invalid request" }, 400);
   const ipHash = await sha256(request.headers.get("CF-Connecting-IP") || "unknown");
-  const cutoff = Date.now() - 15 * 60 * 1000;
+  const now = Date.now();
+  await env.DB.prepare("DELETE FROM login_attempts WHERE attempted_at < ?").bind(now - 24 * 60 * 60 * 1000).run();
+  const cutoff = now - 15 * 60 * 1000;
   const attempts = await env.DB.prepare(
     "SELECT COUNT(*) AS count FROM login_attempts WHERE ip_hash = ? AND attempted_at > ?"
   ).bind(ipHash, cutoff).first();
   if (Number(attempts?.count || 0) >= 10) return json({ error: "Too many attempts. Try again in 15 minutes." }, 429);
   const username = String(input.username || "").trim();
   const password = String(input.password || "");
+  if (password.length > 200) return json({ error: "Incorrect username or password" }, 401);
   const user = await env.DB.prepare(
     "SELECT id, username, display_name, password_hash, role, is_active FROM users WHERE username = ? COLLATE NOCASE LIMIT 1"
   ).bind(username).first();
