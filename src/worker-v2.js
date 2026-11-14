@@ -71,7 +71,7 @@ async function handleApi(request, env, url) {
 
   if (path === "/api/data" && request.method === "GET") return getStudyData(env);
   if (path === "/api/callouts" && request.method === "POST") return saveCallout(request, env, user);
-  const calloutMatch = path.match(/^\\/api\\/callouts\\/([a-zA-Z0-9_-]+)$/);
+  const calloutMatch = path.match(/^\/api\/callouts\/([a-zA-Z0-9_-]+)$/);
   if (calloutMatch && request.method === "DELETE") return deleteCallout(env, user, calloutMatch[1]);
   if (path === "/api/entries" && request.method === "POST") return saveEntry(request, env, user, null);
 
