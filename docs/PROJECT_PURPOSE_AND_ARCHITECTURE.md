@@ -151,3 +151,20 @@ For a shared notebook, useful candidates to discuss include:
 - export/backup of the group's notebook.
 
 These are ideas for discussion, not requirements to implement all at once.
+
+
+### Additional finding: home-page recent entries block
+
+Reviewed the `renderHome()` implementation in `public/study.html`.
+
+The current "recent entries" block has several functional limitations:
+- It merges only dictionary words and grammar rules; comparison cards and custom callouts are excluded.
+- It sorts by extracting the first digit sequence from each record ID (`_order`), not by `created_at` or `updated_at`. This is not a reliable recency rule and does not move an edited record to the top.
+- It takes only five results.
+- It applies the global search query to this block, so a search can make recent entries disappear even though they still exist.
+- It renders plain `div` rows without a detail action, so the recent entries are not directly openable from this list.
+- The API currently returns word/rule/card data without creation or update timestamps, so a correct cross-section recent-activity feed needs a deliberate timestamp and sorting design.
+
+**Status:** confirmed by source inspection; no code fix has been made yet.
+
+**Suggested direction:** make the recent block a real "recently created or updated" feed, sort by server timestamps, make each row open the corresponding entry, and decide which content types belong in it. Its contents should not silently change just because the user typed into the global search field.
