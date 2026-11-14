@@ -13,20 +13,25 @@ export default {
         return await handleApi(request, env, url);
       }
 
-      if (url.pathname === "/" || url.pathname === "/study.html") {
-        const user = await getUser(request, env);
-        if (!user) return Response.redirect(new URL("/login", request.url), 302);
-        return env.ASSETS.fetch(new Request(new URL("/study.html", request.url), request));
-      }
-
       if (url.pathname === "/login" || url.pathname === "/login.html") {
         return env.ASSETS.fetch(new Request(new URL("/login.html", request.url), request));
+      }
+
+      if (url.pathname === "/join" || url.pathname === "/join.html") {
+        return env.ASSETS.fetch(new Request(new URL("/join.html", request.url), request));
       }
 
       if (url.pathname === "/setup" || url.pathname === "/setup.html") {
         const owner = await env.DB.prepare("SELECT id FROM users WHERE role = 'owner' LIMIT 1").first();
         if (owner) return Response.redirect(new URL("/login", request.url), 302);
         return env.ASSETS.fetch(new Request(new URL("/setup.html", request.url), request));
+      }
+
+      if (url.pathname === "/" || url.pathname.endsWith(".html")) {
+        const user = await getUser(request, env);
+        if (!user) return Response.redirect(new URL("/login", request.url), 302);
+        if (url.pathname !== "/study.html") return Response.redirect(new URL("/study.html", request.url), 302);
+        return env.ASSETS.fetch(new Request(new URL("/study.html", request.url), request));
       }
 
       return env.ASSETS.fetch(request);
