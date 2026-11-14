@@ -48,9 +48,13 @@ npx wrangler d1 create nasha-danska-v2
 
 ```sh
 npx wrangler d1 migrations apply nasha-danska-v2 --remote
+npx wrangler secret put BOOTSTRAP_SECRET
+npx wrangler deploy
 ```
 
-Не запускайте міграцію, доки в `wrangler.toml` лишається нульовий placeholder ID. Для першого налаштування Owner буде потрібен окремий секрет середовища; його не можна комітити в Git.
+Для `BOOTSTRAP_SECRET` введіть довгий випадковий секрет у запиті Wrangler. Не надсилайте його в чат і не додавайте до Git. Після розгортання відкрийте адресу Worker: якщо Owner ще не створений, сайт покаже сторінку `/setup`. Після створення головного акаунта нові учасники додаються з розділу «Учасники».
+
+Не запускайте міграцію, доки в `wrangler.toml` лишається нульовий placeholder ID.
 
 ## Поточний стан V2
 
