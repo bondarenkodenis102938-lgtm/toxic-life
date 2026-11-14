@@ -36,7 +36,13 @@ export default {
 
       if (url.pathname === "/" || url.pathname.endsWith(".html")) {
         const user = await getUser(request, env);
-        if (!user) return Response.redirect(new URL("/login", request.url), 302);
+        if (!user) {
+          if (url.pathname === "/") {
+            const owner = await env.DB.prepare("SELECT id FROM users WHERE role = 'owner' LIMIT 1").first();
+            if (!owner) return Response.redirect(new URL("/setup", request.url), 302);
+          }
+          return Response.redirect(new URL("/login", request.url), 302);
+        }
         if (url.pathname !== "/study.html") return Response.redirect(new URL("/study.html", request.url), 302);
         return env.ASSETS.fetch(new Request(new URL("/study.html", request.url), request));
       }
