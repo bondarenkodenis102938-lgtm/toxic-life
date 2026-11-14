@@ -393,7 +393,8 @@ async function saveEntry(request, env, user, routeId) {
   } else {
     const category = item.category === "meaning" ? "meaning" : item.category === "form" ? "form" : null;
     const title = String(item.title || "").trim();
-    const seenWords = new Set();\n    const cardWords = (Array.isArray(item.words) ? item.words : []).filter(entry => { const key = String(entry.word || "").trim().toLocaleLowerCase(); if (!key || seenWords.has(key)) return false; seenWords.add(key); return true; });
+    const seenWords = new Set();
+    const cardWords = (Array.isArray(item.words) ? item.words : []).filter(entry => { const key = String(entry.word || "").trim().toLocaleLowerCase(); if (!key || seenWords.has(key)) return false; seenWords.add(key); return true; });
     if (!category || !title) return json({ error: "Card category and title are required" }, 400);
     if (cardWords.length < 2) return json({ error: "A comparison card must contain at least two words" }, 400);
     await env.DB.prepare(
