@@ -64,6 +64,9 @@ async function handleApi(request, env, url) {
   if (!user) return json({ error: "Authentication required" }, 401);
 
   if (path === "/api/data" && request.method === "GET") return getStudyData(env);
+  if (path === "/api/callouts" && request.method === "POST") return saveCallout(request, env, user);
+  const calloutMatch = path.match(/^\\/api\\/callouts\\/([a-zA-Z0-9_-]+)$/);
+  if (calloutMatch && request.method === "DELETE") return deleteCallout(env, user, calloutMatch[1]);
   if (path === "/api/entries" && request.method === "POST") return saveEntry(request, env, user, null);
 
   const entryMatch = path.match(/^\/api\/entries\/([a-zA-Z0-9_-]+)$/);
@@ -285,6 +288,29 @@ async function acceptInvitation(request, env) {
   }
   const session = await issueSession(id, env);
   return json({ user: { id, username, displayName, role: "cohost" } }, 201, { "Set-Cookie": sessionCookie(session) });
+}
+
+async function saveCallout(request, env, user) {
+  const input = await readJson(request) || {};
+  const item = input.item || {};
+  const id = String(item.id || randomId()), label = String(item.label || "").trim();
+  if (!label) return json({ error: "Callout label is required" }, 400);
+  const now = Date.now();
+  await env.DB.prepare(
+    `INSERT INTO custom_callouts (id, label, icon, background_color, accent_color, created_by, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+     ON CONFLICT(id) DO UPDATE SET label=excluded.label, icon=excluded.icon,
+     background_color=excluded.background_color, accent_color=excluded.accent_color, updated_at=excluded.updated_at`
+  ).bind(id, label, String(item.icon || "✦"), String(item.color || "#dfeee2"), String(item.accent || "#687f64"), user.id, now, now).run();
+  return json({ id, saved: true }, 201);
+}
+
+async function deleteCallout(env, user, id) {
+  await env.DB.prepare("DELETE FROM custom_callouts WHERE id = ?").bind(id).run();
+  await env.DB.prepare(
+    "INSERT INTO audit_log (actor_id, action, entity_type, entity_id, details_json, created_at) VALUES (?, 'delete', 'callout', ?, '{}', ?)"
+  ).bind(user.id, id, Date.now()).run();
+  return json({ deleted: true });
 }
 
 async function getStudyData(env) {
