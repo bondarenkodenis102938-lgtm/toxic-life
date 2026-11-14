@@ -1,54 +1,29 @@
 # Editor Playground
 
-Standalone UX laboratory for the universal learning-content editor.
+Standalone UX laboratory for the universal Danish-learning material editor.
 
-## Current direction
+## Current baseline
 
-This is **not** a word processor and not a document-first editor. It is a flexible tool for creating Danish-learning materials: from a short vocabulary note to a structured lesson.
+The playground has been restored to the earlier v0.1 interface after the v0.2 redesign did not meet the usability target. This earlier version is the baseline for the next iteration.
 
-### Visual principles
-- Calm, restrained interface with a neutral surface palette.
-- Color is reserved for semantic emphasis (for example: attention, important rule, interesting fact), not applied to every block.
-- Readable typography, clear spacing, responsive layout, light and dark themes.
+## Design direction
 
-### Editing principles
-- Templates are editable starting structures, never locked layouts.
-- Users can mix, add, remove, duplicate, and reorder blocks freely.
-- Available block concepts: heading, text, word, example, table, callout, list, note, image.
-- Keep the editor flexible; do not make block availability depend on the selected category.
+- Preserve the earlier layout and visual style unless a change is specifically needed.
+- Make ordinary writing comfortable first: users should be able to write and edit explanations without fighting the interface.
+- Keep templates as optional, editable starting points.
+- Keep blocks flexible: add, remove, duplicate, and reorder them without locking the material into a template.
+- Use restrained color; reserve emphasis for meaningful callouts such as important rules or warnings.
+- Keep the UI in Ukrainian and English only.
 
-### Library-card requirements
-A material must render a useful, predictable library card. Required metadata for publication:
-1. Title.
-2. Short description.
-3. Main category.
-4. At least one meaningful content block.
+## Next improvements — not yet implemented
 
-Optional metadata:
-- Level.
-- Tags.
-- Image and other supplementary information.
+1. Improve the writing experience and text formatting without replacing the current layout.
+2. Add a compact library-card preview.
+3. Add required publication fields: title, short description, main category, and at least one meaningful content block.
+4. Allow incomplete drafts; explain missing fields only when checking publication readiness.
 
-Block-level validation:
-- Word block: at least the Danish headword.
-- Example block: Danish sentence.
-- Callout: explanatory body.
-- Text, heading, and note blocks: non-empty content.
-- Optional translations and secondary fields may remain empty.
+## Prototype limitations
 
-Drafts may be incomplete and saved. Publication validation must explain what is missing. The library-card preview updates while editing.
-
-## Prototype v0.2
-- Live library-card preview and required-field validation.
-- Editable starter templates.
-- Add, reorder, duplicate, and delete content blocks.
-- Automatic local draft saving and restore in this browser; manual save is also available.
-- Light/dark theme.
-- Responsive layout.
-
-## Limitations
-- This is a local UX prototype only.
-- No API, Worker, D1, authentication, or production assets.
-- “Publish” is a validation demo; it does not publish anything.
-- Image block is a placeholder; actual upload is not implemented.
-- UI is Ukrainian in this prototype; product UI target languages remain Ukrainian and English.
+- Local UX prototype only; no API, Worker, D1, authentication, or production assets.
+- Saving is local to this browser.
+- Nothing is published to the production site.
