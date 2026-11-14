@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS similar_card_words (
   card_id TEXT NOT NULL REFERENCES similar_cards(id) ON DELETE CASCADE,
   word_id TEXT NOT NULL REFERENCES words(id) ON DELETE CASCADE,
   position INTEGER NOT NULL DEFAULT 0,
+  card_translation TEXT NOT NULL DEFAULT '',
   card_usage TEXT NOT NULL DEFAULT '',
   card_example TEXT NOT NULL DEFAULT '',
   PRIMARY KEY (card_id, word_id)
