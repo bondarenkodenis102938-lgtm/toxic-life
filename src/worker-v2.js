@@ -1,5 +1,5 @@
 const SESSION_SECONDS = 60 * 60 * 24 * 14;
-const PASSWORD_ITERATIONS = 310000;
+const PASSWORD_ITERATIONS = 100000;
 const COOKIE_NAME = "nd_session";
 
 export default {
