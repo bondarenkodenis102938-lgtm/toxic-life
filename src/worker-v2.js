@@ -310,7 +310,7 @@ async function getStudyData(env) {
   }
   return json({
     words: wordRows.results.map(w => ({
-      id: w.id, word: w.danish, translation: w.translation, summary: w.summary,
+      id: w.id, word: w.danish, translation: w.translation, family: w.legacy_family, familyNote: w.legacy_family_note, summary: w.summary,
       usage: w.usage, example: w.example, contentHtml: w.content_html
     })),
     rules: ruleRows.results.map(r => ({
@@ -341,13 +341,14 @@ async function saveEntry(request, env, user, routeId) {
     const danish = String(item.word || "").trim();
     if (!danish) return json({ error: "Danish word is required" }, 400);
     await env.DB.prepare(
-      `INSERT INTO words (id, danish, translation, summary, usage, example, content_html, created_by, updated_by, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `INSERT INTO words (id, danish, translation, legacy_family, legacy_family_note, summary, usage, example, content_html, created_by, updated_by, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
        ON CONFLICT(id) DO UPDATE SET danish=excluded.danish, translation=excluded.translation,
+       legacy_family=excluded.legacy_family, legacy_family_note=excluded.legacy_family_note,
        summary=excluded.summary, usage=excluded.usage, example=excluded.example,
        content_html=excluded.content_html, updated_by=excluded.updated_by, updated_at=excluded.updated_at`
-    ).bind(id, danish, String(item.translation || ""), String(item.summary || ""), String(item.usage || ""),
-      String(item.example || ""), String(item.contentHtml || ""), user.id, user.id, now, now).run();
+    ).bind(id, danish, String(item.translation || ""), String(item.family || ""), String(item.familyNote || ""),
+      String(item.summary || ""), String(item.usage || ""), String(item.example || ""), String(item.contentHtml || ""), user.id, user.id, now, now).run();
   } else if (kind === "rule") {
     const title = String(item.title || "").trim();
     if (!title) return json({ error: "Rule title is required" }, 400);
