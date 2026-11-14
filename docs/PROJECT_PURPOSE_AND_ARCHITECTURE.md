@@ -168,3 +168,38 @@ The current "recent entries" block has several functional limitations:
 **Status:** confirmed by source inspection; no code fix has been made yet.
 
 **Suggested direction:** make the recent block a real "recently created or updated" feed, sort by server timestamps, make each row open the corresponding entry, and decide which content types belong in it. Its contents should not silently change just because the user typed into the global search field.
+
+
+### Agreed feature: recent changes feed and Owner activity log
+
+**Status: agreed product behavior; not implemented yet.**
+
+The current home-page recent-entries block is to become a compact **Recent changes** feed, while the complete activity history belongs in the Owner's admin panel.
+
+#### Main page — Recent changes
+
+- Visible to all signed-in group members.
+- Shows only recent changes to shared learning content, including newly created and edited entries.
+- Covers the notebook's content areas (Dictionary, Grammar, Similar words and longer study materials, where those are stored as entries).
+- Each item should identify the affected entry, the kind of change (created or edited), who made the change, and when it happened.
+- Selecting an item should open the corresponding entry.
+- Order by the actual server-side change time, so editing an older entry moves it to the top.
+- The feed must be independent of the global search field; searching the notebook must not hide or alter the recent-changes feed.
+- The home page shows a short, compact preview rather than the complete activity history.
+
+#### Admin panel — complete activity history
+
+- The full activity log is available only to the Owner through the admin panel.
+- It should include the complete set of recorded actions, not just learning-entry changes: for example create, update and delete events, as well as relevant member-management actions.
+- The admin view should make it possible to identify who performed an action, what it affected, what kind of action occurred, and when it happened.
+- Filtering and more detailed inspection belong in this Owner-only view.
+
+#### Implementation notes
+
+- The existing `audit_log` table already records create/update/delete actions and member removal, but the current V2 API has no visible read endpoint or activity-history screen.
+- Before implementation, inspect the actual audit-log schema and all write paths to confirm event coverage and available metadata.
+- The main-page feed should use reliable server-side timestamps and should not infer recency from record IDs.
+- Do not expose the full audit log or administrative events to Co-hosts through the main-page feed.
+- Design the API and UI around the agreed separation: a limited recent-content feed for signed-in members, and a complete audit-history view restricted to the Owner.
+- No database migration or code change is authorized by this product decision alone. Inspect first, then propose any required schema/API changes for approval.
+
