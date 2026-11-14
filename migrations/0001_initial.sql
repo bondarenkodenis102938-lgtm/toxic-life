@@ -43,6 +43,8 @@ CREATE TABLE IF NOT EXISTS words (
   id TEXT PRIMARY KEY,
   danish TEXT NOT NULL,
   translation TEXT NOT NULL DEFAULT '',
+  legacy_family TEXT NOT NULL DEFAULT '',
+  legacy_family_note TEXT NOT NULL DEFAULT '',
   summary TEXT NOT NULL DEFAULT '',
   usage TEXT NOT NULL DEFAULT '',
   example TEXT NOT NULL DEFAULT '',
