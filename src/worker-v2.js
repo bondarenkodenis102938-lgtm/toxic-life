@@ -319,7 +319,7 @@ async function getStudyData(env) {
     env.DB.prepare("SELECT * FROM rules ORDER BY updated_at DESC").all(),
     env.DB.prepare("SELECT * FROM similar_cards ORDER BY updated_at DESC").all(),
     env.DB.prepare(
-      `SELECT scw.card_id, scw.position, scw.card_usage, scw.card_example,
+      `SELECT scw.card_id, scw.position, scw.card_translation, scw.card_usage, scw.card_example,
               w.id, w.danish, w.translation, w.usage, w.example
        FROM similar_card_words scw JOIN words w ON w.id = scw.word_id
        ORDER BY scw.card_id, scw.position`
@@ -330,7 +330,7 @@ async function getStudyData(env) {
   for (const row of linkRows.results) {
     if (!links.has(row.card_id)) links.set(row.card_id, []);
     links.get(row.card_id).push({
-      id: row.id, word: row.danish, translation: row.translation,
+      id: row.id, word: row.danish, translation: row.card_translation || row.translation,
       usage: row.card_usage || row.usage, example: row.card_example || row.example
     });
   }
@@ -412,8 +412,8 @@ async function saveEntry(request, env, user, routeId) {
         word = { id: wordId };
       }
       await env.DB.prepare(
-        "INSERT INTO similar_card_words (card_id, word_id, position, card_usage, card_example) VALUES (?, ?, ?, ?, ?)"
-      ).bind(id, word.id, position, String(entry.usage || ""), String(entry.example || "")).run();
+        "INSERT INTO similar_card_words (card_id, word_id, position, card_translation, card_usage, card_example) VALUES (?, ?, ?, ?, ?, ?)"
+      ).bind(id, word.id, position, String(entry.translation || ""), String(entry.usage || ""), String(entry.example || "")).run();
     }
   }
   await env.DB.prepare(
