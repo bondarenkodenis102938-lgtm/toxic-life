@@ -42,7 +42,7 @@ Drafts may be incomplete and saved. Publication validation must explain what is 
 - Live library-card preview and required-field validation.
 - Editable starter templates.
 - Add, reorder, duplicate, and delete content blocks.
-- Local draft save and restore in this browser.
+- Automatic local draft saving and restore in this browser; manual save is also available.
 - Light/dark theme.
 - Responsive layout.
 
