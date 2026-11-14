@@ -393,7 +393,9 @@ async function saveEntry(request, env, user, routeId) {
   } else {
     const category = item.category === "meaning" ? "meaning" : item.category === "form" ? "form" : null;
     const title = String(item.title || "").trim();
+    const cardWords = Array.isArray(item.words) ? item.words.filter(entry => String(entry.word || "").trim()) : [];
     if (!category || !title) return json({ error: "Card category and title are required" }, 400);
+    if (cardWords.length < 2) return json({ error: "A comparison card must contain at least two words" }, 400);
     await env.DB.prepare(
       `INSERT INTO similar_cards (id, category, title, topic, summary, note, sources_json, created_by, updated_by, created_at, updated_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -404,8 +406,8 @@ async function saveEntry(request, env, user, routeId) {
       JSON.stringify(Array.isArray(item.sources) ? item.sources : []), user.id, user.id, now, now).run();
 
     await env.DB.prepare("DELETE FROM similar_card_words WHERE card_id = ?").bind(id).run();
-    for (let position = 0; position < (Array.isArray(item.words) ? item.words.length : 0); position++) {
-      const entry = item.words[position];
+    for (let position = 0; position < cardWords.length; position++) {
+      const entry = cardWords[position];
       const danish = String(entry.word || "").trim();
       if (!danish) continue;
       let word = await env.DB.prepare("SELECT id FROM words WHERE danish = ? COLLATE NOCASE LIMIT 1").bind(danish).first();
@@ -433,6 +435,10 @@ async function deleteEntry(url, env, user, id) {
   const tables = { word: "words", rule: "rules", similar: "similar_cards" };
   const table = tables[kind];
   if (!table) return json({ error: "Unknown entry type" }, 400);
+  if (kind === "word") {
+    const linked = await env.DB.prepare("SELECT COUNT(*) AS count FROM similar_card_words WHERE word_id = ?").bind(id).first();
+    if (Number(linked?.count || 0) > 0) return json({ error: "This word is used in comparison cards. Remove it from those cards first." }, 409);
+  }
   const result = await env.DB.prepare(`DELETE FROM ${table} WHERE id = ?`).bind(id).run();
   if (!result.meta?.changes) return json({ error: "Entry not found" }, 404);
   await env.DB.prepare(
