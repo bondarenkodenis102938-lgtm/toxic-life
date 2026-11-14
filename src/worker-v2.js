@@ -285,6 +285,8 @@ async function acceptInvitation(request, env) {
   if (!token || !/^[a-zA-Z0-9_.-]{3,32}$/.test(username) || password.length < 12 || password.length > 200 || !displayName) {
     return json({ error: "Check the username, display name and password (minimum 12 characters)." }, 400);
   }
+  const existingUser = await env.DB.prepare("SELECT id FROM users WHERE username = ? COLLATE NOCASE LIMIT 1").bind(username).first();
+  if (existingUser) return json({ error: "That username is already taken. Choose another one." }, 409);
   const tokenHash = await sha256(token);
   const invite = await env.DB.prepare(
     "SELECT id FROM invitations WHERE token_hash = ? AND role = 'cohost' AND used_at IS NULL AND expires_at > ? LIMIT 1"
