@@ -1,5 +1,3 @@
-PRAGMA foreign_keys = ON;
-
 -- Accounts are invite-only. Exactly one owner is created during first-run setup.
 CREATE TABLE IF NOT EXISTS users (
   id TEXT PRIMARY KEY,
